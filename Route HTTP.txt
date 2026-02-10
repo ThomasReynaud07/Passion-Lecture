@@ -1,0 +1,19 @@
+Recuperer tt les livre | GET | /api/books | pas JSON |
+-----------------------------------------------------------------------
+Recuperer tt les livres d'categories | GET | /api/categories/1/books | pas JSON |
+-----------------------------------------------------------------------
+Modifier 1 livre | PUT | /api/books/id | besoin de JSON |
+-----------------------------------------------------------------------
+Supprimer 1 livre | DELETE | /api/books/id | pas JSON |
+-----------------------------------------------------------------------
+Ajouter un livre(toutes les informations, resume,auteurs,img,etc...) | POST | /api/books/ | besoin JSON |
+-----------------------------------------------------------------------
+Ajouter commentaire + étoile | POST | /api/books/id/reviews | besoin JSON |
+-----------------------------------------------------------------------
+Afficher commentaire + étoile | GET | /api/books/id/reviews | pas JSON |
+-----------------------------------------------------------------------
+Modifier commentaire + étoile | PUT | //api/books/id/reviews/id | besoin JSON |
+-----------------------------------------------------------------------
+Creer Compte | POST | /api/users | besoin JSON |
+-----------------------------------------------------------------------
+
