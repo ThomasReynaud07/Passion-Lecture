@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-// On importe des icônes qui ressemblent à ton screen cible
 import { Book, Home, Library, LogIn } from 'lucide-vue-next'
 </script>
 
@@ -40,11 +39,12 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
 </template>
 
 <style scoped>
+/* --- NAVBAR --- */
 .navbar {
   position: fixed;
   inset: 0 0 auto 0;
-  height: 70px; /* Légèrement plus haut pour respirer */
-  background: #0d0a1a; /* Fond sombre uni comme l'image */
+  height: 70px;
+  background: #0d0a1a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 1000;
   display: flex;
@@ -57,11 +57,10 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
   margin: 0 auto;
   padding: 0 40px;
   display: flex;
-  justify-content: space-between; /* Écarte les 3 blocs */
+  justify-content: space-between;
   align-items: center;
 }
 
-/* --- GAUCHE : LOGO --- */
 .nav-left {
   display: flex;
   align-items: center;
@@ -69,7 +68,7 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
 }
 
 .logo-box {
-  background: #8b5cf6; /* Le violet vif de l'image 2 */
+  background: #8b5cf6;
   padding: 8px;
   border-radius: 12px;
   display: flex;
@@ -85,7 +84,6 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
   letter-spacing: -0.5px;
 }
 
-/* --- CENTRE : NAV --- */
 .nav-center {
   display: flex;
   gap: 8px;
@@ -111,14 +109,12 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
   color: white;
 }
 
-/* État actif (Le bouton Accueil sombre sur ton image) */
 .router-link-exact-active {
   background: #1e1b2e;
   color: white;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-/* --- DROITE : BOUTON --- */
 .btn-login {
   background: #8b5cf6;
   border: none;
@@ -141,6 +137,32 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
 }
 
 .page {
-  padding-top: 80px;
+  padding-top: 90px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>
+
+<style>
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #0d0a1a;
+  color: white;
+}
+
+#app {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  text-align: left !important;
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>
