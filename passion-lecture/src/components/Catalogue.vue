@@ -1,22 +1,41 @@
 <template>
   <div class="container">
     <div>
-      <h1>Bonjour</h1>
+      <h1>Catalogue</h1>
     </div>
     <div>
       <p>Parcourez tous les ouvrages par catégorie</p>
     </div>
     <hr />
     <div>
-      <button>Tout</button>
-      <button>Roman</button>
-      <button>Manga</button>
-      <button>Science-fiction</button>
-      <button>Bande dessinée</button>
-      <button>Essai</button>
+      <div>
+        <button @click="tout" :class="{ active: categorieSelectionnee === 'tout' }">Tout</button>
+        <button @click="roman" :class="{ active: categorieSelectionnee === 'Roman' }">Roman</button>
+        <button @click="manga" :class="{ active: categorieSelectionnee === 'Manga' }">Manga</button>
+        <button @click="sci_fi" :class="{ active: categorieSelectionnee === 'Science-Fiction' }">
+          Science-fiction
+        </button>
+        <button @click="bd" :class="{ active: categorieSelectionnee === 'BD' }">
+          Bande dessinée
+        </button>
+        <button @click="essai" :class="{ active: categorieSelectionnee === 'Essai' }">Essai</button>
+        <button @click="polar" :class="{ active: categorieSelectionnee === 'Polar' }">Polar</button>
+        <button @click="psycho" :class="{ active: categorieSelectionnee === 'Psychologie' }">
+          Psychologie
+        </button>
+        <button @click="espace" :class="{ active: categorieSelectionnee === 'Espace' }">
+          Espace
+        </button>
+        <button @click="cuisine" :class="{ active: categorieSelectionnee === 'Cuisine' }">
+          Cuisine
+        </button>
+        <button @click="thriller" :class="{ active: categorieSelectionnee === 'Thriller' }">
+          Thriller
+        </button>
+      </div>
     </div>
     <div class="livres-list">
-      <div class="livre-card" v-for="livre in livres" :key="livre.id">
+      <div class="livre-card" v-for="livre in livresFiltres" :key="livre.id">
         <img :src="livre.imageCouverture" alt="image" class="livre-image" />
         <div class="livre-info">
           <h3>{{ livre.titre }}</h3>
@@ -30,10 +49,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const livres = ref([])
-const categorieSelectionnee = ref('')
+const categorieSelectionnee = ref('tout')
+const livresFiltres = computed(() => {})
 onMounted(async () => {
   const response = await fetch('/data/books.json')
   livres.value = await response.json()
@@ -43,13 +63,15 @@ onMounted(async () => {
 <style scoped>
 .container {
   padding: 40px;
-  background-color: #0d0b14; /* Fond plus sombre pour coller à l'image */
+  background-color: transparent;
   color: white;
   font-family: 'Inter', sans-serif;
-
-  /* Centre tout le bloc au milieu de l'écran */
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.active {
+  color: #6d28d9;
 }
 
 h1 {
@@ -85,11 +107,9 @@ button {
   color: #8b85a1;
   cursor: pointer;
   font-size: 14px;
-  transition: 0.3s;
 }
 
 button:first-child {
-  /* Pour le bouton "Tout" */
   background-color: #6d28d9;
   color: white;
   border-color: #8b5cf6;
@@ -100,7 +120,7 @@ button:first-child {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 600px; /* Ajuste selon la largeur voulue pour tes cartes */
+  max-width: 600px;
 }
 
 /* CARTE DE LIVRE */
@@ -110,7 +130,6 @@ button:first-child {
   background-color: #161223;
   padding: 20px;
   border-radius: 16px;
-  /* Indispensable pour que le tag se place par rapport à la carte */
   position: relative;
 }
 
@@ -138,27 +157,27 @@ button:first-child {
   color: #5d5870;
   display: flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
-
-/* Icône utilisateur simulée avant l'email */
 .livre-info .email::before {
   content: '👤';
   font-size: 10px;
   margin-right: 5px;
+  display: inline-block;
 }
 
 /* TAG DE CATEGORIE : COIN HAUT DROITE */
 .categorie-tag {
   position: absolute;
-  top: 20px; /* Ajuste la distance du bord haut */
-  right: 20px; /* Ajuste la distance du bord droit */
+  top: 15px;
+  right: 15px;
 
-  padding: 4px 15px;
+  padding: 4px 12px;
   border-radius: 15px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
 
-  /* Style visuel du tag */
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: transparent;
   color: white;
