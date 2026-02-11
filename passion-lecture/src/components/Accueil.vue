@@ -62,24 +62,26 @@ const recentBooks = [...booksData].reverse()
 
     <div class="books-grid">
       <div v-for="(book, index) in recentBooks" :key="book.id">
-        <div class="book-card" v-if="index < 5">
-          <div class="book-cover">
-            <img :src="book.imageCouverture" alt="Cover" />
-            <span class="genre-badge roman">{{ book.categorie }}</span>
-            <div class="rating-badge">
-              <Star :size="12" fill="#fbbf24" color="#fbbf24" />
-              <span>{{ book.noteMoyenne }}</span>
+        <RouterLink to="/Details">
+          <div class="book-card" v-if="index < 5">
+            <div class="book-cover">
+              <img :src="book.imageCouverture" alt="Cover" />
+              <span class="genre-badge roman">{{ book.categorie }}</span>
+              <div class="rating-badge">
+                <Star :size="12" fill="#fbbf24" color="#fbbf24" />
+                <span>{{ book.noteMoyenne }}</span>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>{{ book.titre }}</h3>
+              <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
+              <div class="user-info">
+                <User :size="14" />
+                <span>{{ book.userEmail }}</span>
+              </div>
             </div>
           </div>
-          <div class="book-info">
-            <h3>{{ book.titre }}</h3>
-            <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
-            <div class="user-info">
-              <User :size="14" />
-              <span>{{ book.userEmail }}</span>
-            </div>
-          </div>
-        </div>
+        </RouterLink>
       </div>
     </div>
   </section>
