@@ -1,3 +1,11 @@
+<script setup>
+///Import des Icones
+import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
+
+import booksData from '../assets/books.json'
+const recentBooks = [...booksData].reverse()
+</script>
+
 <template>
   <div class="hero-container">
     <div class="badge">
@@ -11,12 +19,12 @@
       BiblioVerse est une plateforme communautaire où les passionnés de lecture partagent leurs
       ouvrages favoris, laissent des appréciations et découvrent de nouvelles pépites littéraires.
     </p>
-
-    <button class="cta-button">
-      Explorer le catalogue
-      <ArrowRight :size="18" />
-    </button>
-
+    <RouterLink to="/Catalogue" class="router">
+      <button class="cta-button">
+        Explorer le catalogue
+        <ArrowRight :size="18" />
+      </button>
+    </RouterLink>
     <div class="stats-container">
       <div class="stat-card">
         <div class="icon-wrapper">
@@ -43,14 +51,45 @@
       </div>
     </div>
   </div>
+  <section class="recent-adds">
+    <div class="section-header">
+      <div>
+        <h2>Derniers ajouts</h2>
+        <p>Les 5 derniers ouvrages partagés par la communauté</p>
+      </div>
+      <RouterLink to="/Catalogue" class="view-all">Voir tout <ArrowRight :size="16" /></RouterLink>
+    </div>
+
+    <div class="books-grid">
+      <div v-for="(book, index) in recentBooks" :key="book.id">
+        <div class="book-card" v-if="index < 5">
+          <div class="book-cover">
+            <img :src="book.imageCouverture" alt="Cover" />
+            <span class="genre-badge roman">{{ book.categorie }}</span>
+            <div class="rating-badge">
+              <Star :size="12" fill="#fbbf24" color="#fbbf24" />
+              <span>{{ book.noteMoyenne }}</span>
+            </div>
+          </div>
+          <div class="book-info">
+            <h3>{{ book.titre }}</h3>
+            <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
+            <div class="user-info">
+              <User :size="14" />
+              <span>{{ book.userEmail }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
-<script setup>
-// Import des icônes Lucide
-import { BookOpen, Users, Star, ArrowRight, Sparkles } from 'lucide-vue-next'
-</script>
-
 <style scoped>
+.router {
+  padding: 0%;
+  margin: 0%;
+}
 .hero-container {
   width: 100%;
   display: flex;
@@ -160,7 +199,174 @@ import { BookOpen, Users, Star, ArrowRight, Sparkles } from 'lucide-vue-next'
   margin-top: 4px;
 }
 
-/* Mobile responsive */
+.recent-adds {
+  width: 100%;
+  max-width: 1400px;
+  margin: 100px auto;
+  padding: 0 40px;
+  text-align: left;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin: 0 0 10px 0;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.view-all {
+  color: #a78bfa;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: rgba(167, 139, 250, 0.05);
+  transition: all 0.3s ease;
+}
+
+.view-all:hover {
+  background: rgba(167, 139, 250, 0.1);
+  transform: translateX(5px);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+}
+
+.book-card {
+  background: #120d26;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.book-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.3);
+}
+
+.book-cover {
+  position: relative;
+  aspect-ratio: 3 / 4.5;
+  background: #1e1b2e;
+  overflow: hidden;
+}
+
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .book-cover img {
+  transform: scale(1.1);
+}
+
+.genre-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(124, 58, 237, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+.rating-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 10px;
+  background: rgba(15, 12, 33, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #fbbf24;
+  z-index: 2;
+}
+
+.book-info {
+  padding: 24px;
+}
+
+.book-info h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.author {
+  color: #8b5cf6;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
   .stats-container {
     grid-template-columns: 1fr;

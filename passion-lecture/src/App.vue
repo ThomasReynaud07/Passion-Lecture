@@ -1,7 +1,6 @@
-@ -1,169 +1,175 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { Book, Home, Library, LogIn } from 'lucide-vue-next'
+import { Book, Home, Library, LogIn, User } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -173,5 +172,26 @@ html {
 
 * {
   box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  background-color: transparent !important;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  background-color: transparent !important;
+}
+
+.nav-item,
+.nav-item:hover {
+  background-color: transparent !important;
+}
+
+a > button {
+  pointer-events: auto;
 }
 </style>
