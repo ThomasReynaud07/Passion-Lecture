@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { Book, Home, Library, LogIn } from 'lucide-vue-next'
+import { Book, Home, Library, LogIn, User } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -39,7 +39,6 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
 </template>
 
 <style scoped>
-/* --- NAVBAR --- */
 .navbar {
   position: fixed;
   inset: 0 0 auto 0;
@@ -142,6 +141,9 @@ import { Book, Home, Library, LogIn } from 'lucide-vue-next'
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-start;
 }
 </style>
 
@@ -156,13 +158,40 @@ html {
 
 #app {
   max-width: none !important;
+  width: 100vw !important;
+  max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
   display: block !important;
   text-align: left !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
 }
 
 * {
   box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  background-color: transparent !important;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  background-color: transparent !important;
+}
+
+.nav-item,
+.nav-item:hover {
+  background-color: transparent !important;
+}
+
+a > button {
+  pointer-events: auto;
 }
 </style>
