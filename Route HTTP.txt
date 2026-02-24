@@ -18,3 +18,8 @@ Creer Compte | POST | /api/users | besoin JSON |
 -----------------------------------------------------------------------
 Connexion Compte | GET | /api/users/id | pas JSON |
 -----------------------------------------------------------------------
+Afficher nom et image | GET | /api/users/id | pas JSON |
+-----------------------------------------------------------------------
+Modifier Compte | PUT | /api/users/id | besoin JSON |
+-----------------------------------------------------------------------
+Supprimer Compte | DELETE | /api/users/id | pas JSON |
