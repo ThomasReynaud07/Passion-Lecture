@@ -1,9 +1,22 @@
 <script setup>
 ///Import des Icones
 import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
 
-import booksData from '../assets/books.json'
-const recentBooks = [...booksData].reverse()
+const recentBooks = ref([])
+const isLoading = ref(true)
+
+const fetchRecentBooks = async () => {
+  const response = await fetch(
+    'https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books',
+  )
+  const data = await response.json()
+  recentBooks.value = data.reverse() // Inverse le tableau reçu
+}
+
+onMounted(() => {
+  fetchRecentBooks()
+})
 </script>
 
 <template>
