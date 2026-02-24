@@ -1,9 +1,20 @@
 <script setup>
 ///Import des Icones
 import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
 
-import booksData from '../assets/books.json'
-const recentBooks = [...booksData].reverse()
+const recentBooks = ref([])
+
+const fetchRecentBooks = async () => {
+  const response = await fetch('http://localhost:3000/books')
+
+  const data = await response.json()
+  recentBooks.value = data.reverse()
+}
+
+onMounted(() => {
+  fetchRecentBooks()
+})
 </script>
 
 <template>
@@ -61,25 +72,27 @@ const recentBooks = [...booksData].reverse()
     </div>
 
     <div class="books-grid">
-      <div v-for="(book, index) in recentBooks" :key="book.id">
-        <div class="book-card" v-if="index < 5">
-          <div class="book-cover">
-            <img :src="book.imageCouverture" alt="Cover" />
-            <span class="genre-badge roman">{{ book.categorie }}</span>
-            <div class="rating-badge">
-              <Star :size="12" fill="#fbbf24" color="#fbbf24" />
-              <span>{{ book.noteMoyenne }}</span>
+      <div v-for="book in recentBooks.slice(0, 5)" :key="book.id">
+        <RouterLink :to="{ name: 'BookDetails', params: { id: book.id } }" class="book-link">
+          <div class="book-card">
+            <div class="book-cover">
+              <img :src="book.imageCouverture" alt="Cover" />
+              <span class="genre-badge roman">{{ book.categorie }}</span>
+              <div class="rating-badge">
+                <Star :size="12" fill="#fbbf24" color="#fbbf24" />
+                <span>{{ book.noteMoyenne }}</span>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>{{ book.titre }}</h3>
+              <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
+              <div class="user-info">
+                <User :size="14" />
+                <span>{{ book.userEmail }}</span>
+              </div>
             </div>
           </div>
-          <div class="book-info">
-            <h3>{{ book.titre }}</h3>
-            <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
-            <div class="user-info">
-              <User :size="14" />
-              <span>{{ book.userEmail }}</span>
-            </div>
-          </div>
-        </div>
+        </RouterLink>
       </div>
     </div>
   </section>

@@ -25,10 +25,10 @@ import { Book, Home, Library, LogIn, User } from 'lucide-vue-next'
       </nav>
 
       <div class="nav-right">
-        <button class="btn-login">
+        <RouterLink to="/login" class="btn-login">
           <LogIn :size="18" />
           Connexion
-        </button>
+        </RouterLink>
       </div>
     </div>
   </header>

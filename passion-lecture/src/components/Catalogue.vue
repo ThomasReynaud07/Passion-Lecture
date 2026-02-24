@@ -1,41 +1,82 @@
 <template>
   <div class="container">
     <div>
-      <h1>Catalogue</h1>
+      <h1>Bonjour</h1>
     </div>
     <div>
       <p>Parcourez tous les ouvrages par catégorie</p>
     </div>
     <hr />
-    <div>
-      <div>
-        <button @click="tout" :class="{ active: categorieSelectionnee === 'tout' }">Tout</button>
-        <button @click="roman" :class="{ active: categorieSelectionnee === 'Roman' }">Roman</button>
-        <button @click="manga" :class="{ active: categorieSelectionnee === 'Manga' }">Manga</button>
-        <button @click="sci_fi" :class="{ active: categorieSelectionnee === 'Science-Fiction' }">
-          Science-fiction
-        </button>
-        <button @click="bd" :class="{ active: categorieSelectionnee === 'BD' }">
-          Bande dessinée
-        </button>
-        <button @click="essai" :class="{ active: categorieSelectionnee === 'Essai' }">Essai</button>
-        <button @click="polar" :class="{ active: categorieSelectionnee === 'Polar' }">Polar</button>
-        <button @click="psycho" :class="{ active: categorieSelectionnee === 'Psychologie' }">
-          Psychologie
-        </button>
-        <button @click="espace" :class="{ active: categorieSelectionnee === 'Espace' }">
-          Espace
-        </button>
-        <button @click="cuisine" :class="{ active: categorieSelectionnee === 'Cuisine' }">
-          Cuisine
-        </button>
-        <button @click="thriller" :class="{ active: categorieSelectionnee === 'Thriller' }">
-          Thriller
-        </button>
-      </div>
+    <div class="boutons-filtres">
+      <button
+        @click="categorieSelectionnee = 'Tout'"
+        :class="{ active: categorieSelectionnee === 'Tout' }"
+      >
+        Tout
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Roman'"
+        :class="{ active: categorieSelectionnee === 'Roman' }"
+      >
+        Roman
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Science-Fiction'"
+        :class="{ active: categorieSelectionnee === 'Science-Fiction' }"
+      >
+        Science-Fiction
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Manga'"
+        :class="{ active: categorieSelectionnee === 'Manga' }"
+      >
+        Manga
+      </button>
+      <button
+        @click="categorieSelectionnee = 'BD'"
+        :class="{ active: categorieSelectionnee === 'BD' }"
+      >
+        Bande dessinée
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Essai'"
+        :class="{ active: categorieSelectionnee === 'Essai' }"
+      >
+        Essai
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Polar'"
+        :class="{ active: categorieSelectionnee === 'Polar' }"
+      >
+        Polar
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Psychologie'"
+        :class="{ active: categorieSelectionnee === 'Psychologie' }"
+      >
+        Psychologie
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Espace'"
+        :class="{ active: categorieSelectionnee === 'Espace' }"
+      >
+        Espace
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Cuisine'"
+        :class="{ active: categorieSelectionnee === 'Cuisine' }"
+      >
+        Cuisine
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Thriller'"
+        :class="{ active: categorieSelectionnee === 'Thriller' }"
+      >
+        Thriller
+      </button>
     </div>
     <div class="livres-list">
-      <div class="livre-card" v-for="livre in livresFiltres" :key="livre.id">
+      <div class="livre-card" v-for="livre in booksFiltre" :key="livre.id">
         <img :src="livre.imageCouverture" alt="image" class="livre-image" />
         <div class="livre-info">
           <h3>{{ livre.titre }}</h3>
@@ -51,27 +92,34 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 
-const livres = ref([])
-const categorieSelectionnee = ref('tout')
-const livresFiltres = computed(() => {})
+const books = ref([])
+const categorieSelectionnee = ref('Tout')
 onMounted(async () => {
-  const response = await fetch('/data/books.json')
-  livres.value = await response.json()
+  const response = await fetch('http://localhost:3000/books')
+  books.value = await response.json()
+})
+
+const booksFiltre = computed(() => {
+  if ((categorieSelectionnee.value == 'Tout') | (categorieSelectionnee.value == null)) {
+    return books.value
+  }
+  return books.value.filter((livre) => livre.categorie === categorieSelectionnee.value)
 })
 </script>
 
 <style scoped>
+.active {
+  background-color: #6d28d9;
+  color: white;
+  border-color: #8b5cf6;
+}
+
 .container {
   padding: 40px;
-  background-color: transparent;
   color: white;
   font-family: 'Inter', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.active {
-  color: #6d28d9;
 }
 
 h1 {
@@ -93,8 +141,9 @@ hr {
 }
 
 /* BOUTONS DE FILTRE */
-div:has(> button) {
+.boutons-filtres {
   display: flex;
+  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne s'il y en a trop */
   gap: 12px;
   margin-bottom: 30px;
 }
@@ -107,12 +156,7 @@ button {
   color: #8b85a1;
   cursor: pointer;
   font-size: 14px;
-}
-
-button:first-child {
-  background-color: #6d28d9;
-  color: white;
-  border-color: #8b5cf6;
+  transition: 0.3s;
 }
 
 /* LISTE DE LIVRES */
@@ -121,6 +165,7 @@ button:first-child {
   flex-direction: column;
   gap: 15px;
   max-width: 600px;
+  margin: 0 auto; /* <-- C'est cette ligne qui centre le bloc ! */
 }
 
 /* CARTE DE LIVRE */
@@ -157,27 +202,23 @@ button:first-child {
   color: #5d5870;
   display: flex;
   align-items: center;
-  margin: 0;
-  padding: 0;
 }
+
 .livre-info .email::before {
   content: '👤';
   font-size: 10px;
   margin-right: 5px;
-  display: inline-block;
 }
 
-/* TAG DE CATEGORIE : COIN HAUT DROITE */
+/* TAG DE CATEGORIE */
 .categorie-tag {
   position: absolute;
-  top: 15px;
-  right: 15px;
-
-  padding: 4px 12px;
+  top: 20px;
+  right: 20px;
+  padding: 4px 15px;
   border-radius: 15px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
-
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: transparent;
   color: white;
