@@ -7,16 +7,76 @@
       <p>Parcourez tous les ouvrages par catégorie</p>
     </div>
     <hr />
-    <div>
-      <button>Tout</button>
-      <button>Roman</button>
-      <button>Manga</button>
-      <button>Science-fiction</button>
-      <button>Bande dessinée</button>
-      <button>Essai</button>
+    <div class="boutons-filtres">
+      <button
+        @click="categorieSelectionnee = 'Tout'"
+        :class="{ active: categorieSelectionnee === 'Tout' }"
+      >
+        Tout
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Roman'"
+        :class="{ active: categorieSelectionnee === 'Roman' }"
+      >
+        Roman
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Science-Fiction'"
+        :class="{ active: categorieSelectionnee === 'Science-Fiction' }"
+      >
+        Science-Fiction
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Manga'"
+        :class="{ active: categorieSelectionnee === 'Manga' }"
+      >
+        Manga
+      </button>
+      <button
+        @click="categorieSelectionnee = 'BD'"
+        :class="{ active: categorieSelectionnee === 'BD' }"
+      >
+        Bande dessinée
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Essai'"
+        :class="{ active: categorieSelectionnee === 'Essai' }"
+      >
+        Essai
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Polar'"
+        :class="{ active: categorieSelectionnee === 'Polar' }"
+      >
+        Polar
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Psychologie'"
+        :class="{ active: categorieSelectionnee === 'Psychologie' }"
+      >
+        Psychologie
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Espace'"
+        :class="{ active: categorieSelectionnee === 'Espace' }"
+      >
+        Espace
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Cuisine'"
+        :class="{ active: categorieSelectionnee === 'Cuisine' }"
+      >
+        Cuisine
+      </button>
+      <button
+        @click="categorieSelectionnee = 'Thriller'"
+        :class="{ active: categorieSelectionnee === 'Thriller' }"
+      >
+        Thriller
+      </button>
     </div>
     <div class="livres-list">
-      <div class="livre-card" v-for="livre in livres" :key="livre.id">
+      <div class="livre-card" v-for="livre in booksFiltre" :key="livre.id">
         <img :src="livre.imageCouverture" alt="image" class="livre-image" />
         <div class="livre-info">
           <h3>{{ livre.titre }}</h3>
@@ -30,24 +90,34 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const books = ref([])
-const categorieSelectionnee = ref('')
+const categorieSelectionnee = ref('Tout')
 onMounted(async () => {
-  const response = await fetch('/data/books.json')
+  const response = await fetch('http://localhost:3000/books')
   books.value = await response.json()
+})
+
+const booksFiltre = computed(() => {
+  if ((categorieSelectionnee.value == 'Tout') | (categorieSelectionnee.value == null)) {
+    return books.value
+  }
+  return books.value.filter((livre) => livre.categorie === categorieSelectionnee.value)
 })
 </script>
 
 <style scoped>
+.active {
+  background-color: #6d28d9;
+  color: white;
+  border-color: #8b5cf6;
+}
+
 .container {
   padding: 40px;
-  background-color: #0d0b14; /* Fond plus sombre pour coller à l'image */
   color: white;
   font-family: 'Inter', sans-serif;
-
-  /* Centre tout le bloc au milieu de l'écran */
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -71,8 +141,9 @@ hr {
 }
 
 /* BOUTONS DE FILTRE */
-div:has(> button) {
+.boutons-filtres {
   display: flex;
+  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne s'il y en a trop */
   gap: 12px;
   margin-bottom: 30px;
 }
@@ -88,19 +159,13 @@ button {
   transition: 0.3s;
 }
 
-button:first-child {
-  /* Pour le bouton "Tout" */
-  background-color: #6d28d9;
-  color: white;
-  border-color: #8b5cf6;
-}
-
 /* LISTE DE LIVRES */
 .livres-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 600px; /* Ajuste selon la largeur voulue pour tes cartes */
+  max-width: 600px;
+  margin: 0 auto; /* <-- C'est cette ligne qui centre le bloc ! */
 }
 
 /* CARTE DE LIVRE */
@@ -110,7 +175,6 @@ button:first-child {
   background-color: #161223;
   padding: 20px;
   border-radius: 16px;
-  /* Indispensable pour que le tag se place par rapport à la carte */
   position: relative;
 }
 
@@ -140,25 +204,21 @@ button:first-child {
   align-items: center;
 }
 
-/* Icône utilisateur simulée avant l'email */
 .livre-info .email::before {
   content: '👤';
   font-size: 10px;
   margin-right: 5px;
 }
 
-/* TAG DE CATEGORIE : COIN HAUT DROITE */
+/* TAG DE CATEGORIE */
 .categorie-tag {
   position: absolute;
-  top: 20px; /* Ajuste la distance du bord haut */
-  right: 20px; /* Ajuste la distance du bord droit */
-
+  top: 20px;
+  right: 20px;
   padding: 4px 15px;
   border-radius: 15px;
   font-size: 12px;
   font-weight: 500;
-
-  /* Style visuel du tag */
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: transparent;
   color: white;
