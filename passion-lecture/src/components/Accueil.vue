@@ -6,10 +6,10 @@ import { ref, onMounted } from 'vue'
 const recentBooks = ref([])
 
 const fetchRecentBooks = async () => {
-  const response = await fetch(
-    'https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books',
-  )
+  const response = await fetch('http://localhost:3000/books')
+
   const data = await response.json()
+  recentBooks.value = data.reverse()
 }
 
 onMounted(() => {
