@@ -36,6 +36,20 @@ import { Book, Home, Library, LogIn, User } from 'lucide-vue-next'
   <main class="page">
     <RouterView />
   </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="logo-text">BiblioVerse</span>
+      </div>
+
+      <div class="footer-center">
+        <RouterLink to="/contact" class="footer-link">Contact et info</RouterLink>
+      </div>
+
+      <div class="footer-right"></div>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
@@ -193,5 +207,55 @@ a:hover {
 
 a > button {
   pointer-events: auto;
+}
+
+.footer {
+  width: 100%;
+  background: #0d0a1a;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 30px 0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.footer-left {
+  text-align: left;
+}
+
+.footer-left .logo-text {
+  font-size: 1rem;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: white;
+}
+
+.footer-center {
+  text-align: center;
+}
+
+.footer-link {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #8b5cf6;
+}
+
+.footer-right {
+  /* Colonne vide pour l'équilibre */
 }
 </style>
