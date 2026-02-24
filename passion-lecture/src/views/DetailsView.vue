@@ -8,7 +8,12 @@ const props = defineProps({
 })
 
 const book = computed(() => {
-  return booksData.find((item) => item.id === Number(props.id))
+  for (const book of booksData) {
+    if (book.id === Number(props.id)) {
+      return book
+    }
+  }
+  // return booksData.find((item) => item.id === Number(props.id))
 })
 </script>
 
