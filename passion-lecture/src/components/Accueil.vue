@@ -1,9 +1,20 @@
 <script setup>
 ///Import des Icones
 import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
 
-import booksData from '../assets/books.json'
-const recentBooks = [...booksData].reverse()
+const recentBooks = ref([])
+
+const fetchRecentBooks = async () => {
+  const response = await fetch('http://localhost:3000/books')
+
+  const data = await response.json()
+  recentBooks.value = data.reverse()
+}
+
+onMounted(() => {
+  fetchRecentBooks()
+})
 </script>
 
 <template>

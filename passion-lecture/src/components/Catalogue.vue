@@ -32,11 +32,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const livres = ref([])
+const books = ref([])
 const categorieSelectionnee = ref('')
 onMounted(async () => {
   const response = await fetch('/data/books.json')
-  livres.value = await response.json()
+  books.value = await response.json()
 })
 </script>
 

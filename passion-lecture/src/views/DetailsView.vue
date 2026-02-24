@@ -1,20 +1,34 @@
 <script setup>
-import { computed } from 'vue'
-import booksData from '../assets/books.json'
+import { ref, onMounted, watch } from 'vue'
 import BooksDetails from '../components/BooksDetails.vue'
 
 const props = defineProps({
   id: [Number, String],
 })
 
-const book = computed(() => {
-  for (const book of booksData) {
-    if (book.id === Number(props.id)) {
-      return book
-    }
-  }
-  // return booksData.find((item) => item.id === Number(props.id))
+const book = ref(null)
+const isLoading = ref(true)
+
+const fetchBookDetails = async () => {
+  isLoading.value = true
+  error.value = null
+  const response = await fetch(
+    `https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books/${props.id}`,
+  )
+  book.value = await response.json()
+}
+
+onMounted(() => {
+  fetchBookDetails()
 })
+
+// Utile si l'utilisateur navigue d'un livre à un autre sans changer de composant
+watch(
+  () => props.id,
+  () => {
+    fetchBookDetails()
+  },
+)
 </script>
 
 <template>
