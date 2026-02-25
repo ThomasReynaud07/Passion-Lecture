@@ -67,7 +67,6 @@ import { UserPlus, User, Mail, Lock } from 'lucide-vue-next'
 </script>
 
 <style scoped>
-/* Conteneur principal identique */
 .signup-page {
   min-height: 100vh;
   display: flex;
@@ -75,17 +74,17 @@ import { UserPlus, User, Mail, Lock } from 'lucide-vue-next'
   justify-content: center;
   background-color: #0f0c21;
   padding: 20px;
+  background: transparent !important;
 }
 
-/* Taille strictement identique au login-card */
 .signup-card {
   background: #120d26;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   padding: 40px;
   width: 100%;
-  max-width: 450px; /* Même largeur */
-  min-height: 650px; /* Fixe une hauteur minimale pour éviter le saut visuel */
+  max-width: 450px;
+  min-height: 650px;
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
   text-align: center;
   display: flex;
@@ -134,7 +133,6 @@ import { UserPlus, User, Mail, Lock } from 'lucide-vue-next'
   margin-bottom: 24px;
 }
 
-/* Bouton Google */
 .google-btn {
   width: 100%;
   background: white;

@@ -65,8 +65,9 @@ import { BookOpen, Mail, Lock } from 'lucide-vue-next'
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0f0c21; /* Fond sombre du site */
+  background-color: #0f0c21;
   padding: 20px;
+  background: transparent !important;
 }
 
 .login-card {
