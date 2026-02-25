@@ -90,13 +90,15 @@
 </template>
 
 <script setup>
+import { getBooks } from '@/services/bookServices'
 import { ref, onMounted, computed } from 'vue'
 
 const books = ref([])
 const categorieSelectionnee = ref('Tout')
+
 onMounted(async () => {
-  const response = await fetch('http://localhost:3000/books')
-  books.value = await response.json()
+  const booksData = await getBooks()
+  books.value = booksData.data
 })
 
 const booksFiltre = computed(() => {

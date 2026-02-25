@@ -5,11 +5,11 @@
         <div class="form-row">
           <div class="form-group">
             <label>Titre <span class="required">*</span></label>
-            <input type="text" placeholder="Titre de l'ouvrage" />
+            <input type="text" placeholder="Titre de l'ouvrage" v-model="newBook.title" />
           </div>
           <div class="form-group">
             <label>Catégorie <span class="required">*</span></label>
-            <select>
+            <select v-model="newBook.category">
               <option value="" disabled selected>Choisir une catégorie</option>
               <option value="roman">Roman</option>
               <option value="manga">Manga</option>
@@ -19,7 +19,7 @@
 
         <div class="form-group">
           <label>Auteur <span class="required">*</span></label>
-          <select>
+          <select v-model="newBook.category">
             <option value="" disabled selected>Choisir un auteur existant ou Autre</option>
           </select>
         </div>
@@ -27,45 +27,26 @@
         <div class="form-row">
           <div class="form-group">
             <label>Éditeur</label>
-            <input type="text" placeholder="Nom de l'éditeur" />
+            <input type="text" placeholder="Nom de l'éditeur" v-model="newBook.editor" />
           </div>
           <div class="form-group">
             <label>Année d'édition</label>
-            <input type="number" placeholder="2024" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nombre de pages</label>
-            <input type="number" placeholder="350" />
-          </div>
-          <div class="form-group">
-            <label>Image de couverture</label>
-            <button type="button" class="upload-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" x2="12" y1="3" y2="15" />
-              </svg>
-              Uploader une image
-            </button>
+            <input type="number" placeholder="2024" v-model="newBook.releaseYear" />
           </div>
         </div>
 
         <div class="form-group">
-          <label>Extrait PDF</label>
-          <button type="button" class="upload-btn full-width">
+          <label>Image de couverture</label>
+
+          <input
+            type="file"
+            id="upload-img"
+            accept="image/*"
+            style="display: none"
+            @change="imageUpload"
+          />
+
+          <label for="upload-img" class="upload-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -81,13 +62,48 @@
               <polyline points="17 8 12 3 7 8" />
               <line x1="12" x2="12" y1="3" y2="15" />
             </svg>
-            Uploader un extrait PDF
-          </button>
+            {{ nomImage || 'Uploader une image' }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Extrait PDF</label>
+
+          <input
+            type="file"
+            id="upload-pdf"
+            accept="application/pdf"
+            style="display: none"
+            @change="pdfUpload"
+          />
+
+          <label for="upload-pdf" class="upload-btn full-width">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" x2="12" y1="3" y2="15" />
+            </svg>
+            {{ nomPdf || 'Uploader un extrait PDF' }}
+          </label>
         </div>
 
         <div class="form-group">
           <label>Résumé</label>
-          <textarea placeholder="Résumé de l'ouvrage..." rows="4"></textarea>
+          <textarea
+            placeholder="Résumé de l'ouvrage..."
+            rows="4"
+            v-model="newBook.resume"
+          ></textarea>
         </div>
 
         <button type="submit" class="submit-btn">Enregistrer l'ouvrage</button>
@@ -95,6 +111,24 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const newBook = ref({
+  title: '',
+  category: '',
+  author: '',
+  editor: '',
+  releaseYear: '',
+  pages: '',
+  image: '',
+  pdf: '',
+  resume: '',
+})
+
+const imageUpload = (event) => {}
+</script>
 
 <style scoped>
 /* Conteneur global pour centrer si besoin */
