@@ -4,6 +4,7 @@ import BooksDetails from '../components/BooksDetails.vue'
 
 const props = defineProps({
   id: [Number, String],
+  back: [Boolean, String],
 })
 
 const book = ref(null)
@@ -31,6 +32,6 @@ watch(
 </script>
 
 <template>
-  <BooksDetails v-if="book" :book="book" />
+  <BooksDetails v-if="book" :book="book" :back="back" />
   <p v-else>Livre introuvable</p>
 </template>
