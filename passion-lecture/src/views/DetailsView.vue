@@ -11,7 +11,6 @@ const isLoading = ref(true)
 
 const fetchBookDetails = async () => {
   isLoading.value = true
-  error.value = null
   const response = await fetch(
     `https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books/${props.id}`,
   )
