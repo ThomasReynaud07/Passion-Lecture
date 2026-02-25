@@ -3,12 +3,19 @@ import { ArrowLeft, Star, Edit3, Trash2, BookOpen, Calendar, Layers } from 'luci
 
 const props = defineProps({
   book: Object,
+  back: Boolean,
 })
+console.log(props.back)
 </script>
 
 <template>
   <div class="details-container">
-    <RouterLink to="/" class="back-link"> <ArrowLeft :size="18" /> Retour à l'Accueil </RouterLink>
+    <RouterLink to="/" v-if="back === true || back === 'true'" class="back-link">
+      <ArrowLeft :size="18" /> Retour à l'Accueil
+    </RouterLink>
+    <RouterLink to="/Catalogue" v-else class="back-link">
+      <ArrowLeft :size="18" /> Retour au Catalogue
+    </RouterLink>
 
     <div class="main-content">
       <div class="cover-section">

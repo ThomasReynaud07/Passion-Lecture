@@ -1,3 +1,7 @@
+<script>
+import { User } from 'lucide-vue-next'
+</script>
+
 <template>
   <div class="container">
     <div>
@@ -77,13 +81,25 @@
     </div>
     <div class="livres-list">
       <div class="livre-card" v-for="livre in booksFiltre" :key="livre.id">
-        <img :src="livre.imageCouverture" alt="image" class="livre-image" />
-        <div class="livre-info">
-          <h3>{{ livre.titre }}</h3>
-          <p class="auteur">{{ livre.auteur.prenom }} {{ livre.auteur.nom }}</p>
-          <p class="email">{{ livre.userEmail }}</p>
-        </div>
-        <span class="categorie-tag">{{ livre.categorie }}</span>
+        <RouterLink
+          :to="{ name: 'BookDetails', params: { id: livre.id, back: false } }"
+          class="card-link"
+        >
+          <img :src="livre.imageCouverture" alt="image" class="livre-image" />
+          <div class="livre-info">
+            <h3>{{ livre.titre }}</h3>
+            <p class="auteur">{{ livre.auteur.prenom }} {{ livre.auteur.nom }}</p>
+            <div class="meta-info">
+              <span class="email">
+                <User :size="14" style="margin-right: 4px; vertical-align: middle" />
+                {{ livre.userEmail }}
+              </span>
+            </div>
+          </div>
+          <span :class="['categorie-tag', livre.categorie.toLowerCase().replace(' ', '-')]">
+            {{ livre.categorie }}
+          </span>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -108,73 +124,78 @@ const booksFiltre = computed(() => {
 </script>
 
 <style scoped>
-.active {
-  background-color: #6d28d9;
-  color: white;
-  border-color: #8b5cf6;
+.container {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: transparent !important;
+  display: flex;
+  flex-direction: column;
 }
 
-.container {
-  padding: 40px;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+.header-section {
+  margin-bottom: 30px;
 }
 
 h1 {
   font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: white;
 }
 
-p {
-  color: #8b85a1;
-  margin: 0;
+.header-section p {
+  color: #94a3b8;
+  font-size: 1.1rem;
 }
 
-hr {
-  border: none;
-  height: 1px;
-  background-color: #2d283e;
-  margin: 30px 0;
-}
-
-/* BOUTONS DE FILTRE */
 .boutons-filtres {
   display: flex;
-  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne s'il y en a trop */
-  gap: 12px;
-  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
 }
 
 button {
-  padding: 8px 20px;
-  border: 1px solid #332a4d;
-  border-radius: 20px;
-  background-color: #1a1625;
-  color: #8b85a1;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
   cursor: pointer;
   font-size: 14px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
-/* LISTE DE LIVRES */
+button.active {
+  background-color: #7c3aed;
+  color: white;
+  border-color: #a78bfa;
+}
+
 .livres-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  max-width: 600px;
-  margin: 0 auto; /* <-- C'est cette ligne qui centre le bloc ! */
+  gap: 16px;
+  width: 100%;
 }
 
-/* CARTE DE LIVRE */
 .livre-card {
+  background-color: rgba(18, 13, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  transition: transform 0.2s;
+}
+
+.livre-card:hover {
+  background-color: rgba(26, 20, 51, 0.8);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.card-link {
   display: flex;
   align-items: center;
-  background-color: #161223;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 20px 30px;
   position: relative;
 }
 
@@ -183,44 +204,70 @@ button {
   height: 85px;
   object-fit: cover;
   border-radius: 8px;
-  margin-right: 20px;
+  margin-right: 25px;
+}
+
+.livre-info {
+  flex-grow: 1;
+  text-align: left;
 }
 
 .livre-info h3 {
-  margin: 0 0 5px 0;
-  font-size: 18px;
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  color: white;
 }
 
 .livre-info .auteur {
-  color: #8b85a1;
-  font-size: 14px;
-  margin-bottom: 5px;
+  color: #a78bfa;
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
 }
 
-.livre-info .email {
-  font-size: 12px;
-  color: #5d5870;
+.email {
+  font-size: 13px;
+  color: #64748b;
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
-.livre-info .email::before {
-  content: '👤';
-  font-size: 10px;
-  margin-right: 5px;
-}
-
-/* TAG DE CATEGORIE */
 .categorie-tag {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 4px 15px;
-  border-radius: 15px;
-  font-size: 12px;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  color: white;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+}
+
+.categorie-tag.roman {
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.15);
+}
+.categorie-tag.manga {
+  color: #fca5a5;
+  background: rgba(252, 165, 165, 0.15);
+}
+.categorie-tag.science-fiction {
+  color: #6ee7b7;
+  background: rgba(110, 231, 183, 0.15);
+}
+hr {
+  margin: 30px 0;
+
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  width: 100%;
+}
+
+.boutons-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 </style>

@@ -73,7 +73,10 @@ onMounted(() => {
 
     <div class="books-grid">
       <div v-for="book in recentBooks.slice(0, 5)" :key="book.id">
-        <RouterLink :to="{ name: 'BookDetails', params: { id: book.id } }" class="book-link">
+        <RouterLink
+          :to="{ name: 'BookDetails', params: { id: book.id, back: true } }"
+          class="book-link"
+        >
           <div class="book-card">
             <div class="book-cover">
               <img :src="book.imageCouverture" alt="Cover" />

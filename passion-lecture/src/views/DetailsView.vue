@@ -4,6 +4,7 @@ import BooksDetails from '../components/BooksDetails.vue'
 
 const props = defineProps({
   id: [Number, String],
+  back: [Boolean, String],
 })
 
 const book = ref(null)
@@ -11,7 +12,6 @@ const isLoading = ref(true)
 
 const fetchBookDetails = async () => {
   isLoading.value = true
-  error.value = null
   const response = await fetch(
     `https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books/${props.id}`,
   )
@@ -32,6 +32,6 @@ watch(
 </script>
 
 <template>
-  <BooksDetails v-if="book" :book="book" />
+  <BooksDetails v-if="book" :book="book" :back="back" />
   <p v-else>Livre introuvable</p>
 </template>
