@@ -5,7 +5,7 @@
       "titre": "Les Ombres d'Émeraude",
       "categorie": "Roman",
       "pages": 412,
-      "extrait": "/extraits/ombres-emeraude.pdf",
+      "extrait": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       "resume": "Dans une cité gouvernée par une élite secrète, une jeune archiviste découvre un complot.",
       "auteur": {
         "prenom": "Clara",
@@ -20,9 +20,9 @@
     {
       "id": 2,
       "titre": "Fragments du Futur",
-      "categorie": "Science-Fiction",
+      "categorie": "Science-fiction",
       "pages": 368,
-      "extrait": "/extraits/fragments-futur.pdf",
+      "extrait": "https://www.africau.edu/images/default/sample.pdf",
       "resume": "En 2150, l’humanité lutte pour survivre après l’effondrement des IA.",
       "auteur": {
         "prenom": "Julien",
@@ -39,7 +39,7 @@
       "titre": "Le Dernier Samouraï",
       "categorie": "Manga",
       "pages": 192,
-      "extrait": "/extraits/dernier-samourai.pdf",
+      "extrait": "https://sedl.org/afterschool/toolkits/science/pdf/ast_sci_data_tables_sample.pdf",
       "resume": "Un jeune guerrier doit choisir entre honneur et vengeance.",
       "auteur": {
         "prenom": "Kenji",
@@ -56,7 +56,7 @@
       "titre": "Chroniques du Bois Noir",
       "categorie": "BD",
       "pages": 124,
-      "extrait": "/extraits/bois-noir.pdf",
+      "extrait": "https://www.clickdimensions.com/links/TestPDFfile.pdf",
       "resume": "Une enquête mystérieuse dans une forêt où les légendes prennent vie.",
       "auteur": {
         "prenom": "Marion",
@@ -73,7 +73,7 @@
       "titre": "L'Art de la Simplicité",
       "categorie": "Essai",
       "pages": 256,
-      "extrait": "/extraits/art-simplicite.pdf",
+      "extrait": "https://orchestra.unige.ch/v2/wp-content/uploads/2018/12/Dummy_PDF_1.pdf",
       "resume": "Un guide pratique pour adopter un mode de vie minimaliste.",
       "auteur": {
         "prenom": "Élise",
@@ -90,7 +90,7 @@
       "titre": "Nuit de Givre",
       "categorie": "Polar",
       "pages": 310,
-      "extrait": "/extraits/nuit-givre.pdf",
+      "extrait": "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf",
       "resume": "Un inspecteur traque un tueur silencieux dans les Alpes enneigées.",
       "auteur": {
         "prenom": "Thomas",
@@ -107,7 +107,7 @@
       "titre": "Le Code de l'Esprit",
       "categorie": "Psychologie",
       "pages": 280,
-      "extrait": "/extraits/code-esprit.pdf",
+      "extrait": "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
       "resume": "Comprendre les mécanismes invisibles qui dirigent nos décisions.",
       "auteur": {
         "prenom": "Marc",
@@ -124,7 +124,7 @@
       "titre": "L'Odyssée Stellaire",
       "categorie": "Espace",
       "pages": 520,
-      "extrait": "/extraits/odyssee-stellaire.pdf",
+      "extrait": "https://pdfobject.com/pdf/sample.pdf",
       "resume": "Le voyage sans retour du premier vaisseau colonisateur vers Proxima.",
       "auteur": {
         "prenom": "Sarah",
@@ -141,7 +141,7 @@
       "titre": "Secrets de Cuisine",
       "categorie": "Cuisine",
       "pages": 150,
-      "extrait": "/extraits/secrets-cuisine.pdf",
+      "extrait": "https://learning.oreilly.com/library/view/learning-javascript-3rd/9781491914922/assets/sample.pdf",
       "resume": "Les recettes oubliées des grands-mères françaises.",
       "auteur": {
         "prenom": "Paul",
@@ -158,7 +158,7 @@
       "titre": "Le Silence des Pins",
       "categorie": "Thriller",
       "pages": 345,
-      "extrait": "/extraits/silence-pins.pdf",
+      "extrait": "https://files.testfile.org/PDF/1MB-testfile.org.pdf",
       "resume": "Un village tranquille cache un secret enfoui depuis 40 ans.",
       "auteur": {
         "prenom": "Léa",

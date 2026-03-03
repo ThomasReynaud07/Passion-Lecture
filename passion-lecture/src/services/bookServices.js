@@ -26,3 +26,7 @@ export const deleteBook = (id) => {
   const books = apiClient.delete('books/' + id)
   return books
 }
+
+export const updateBook = (id, bookData) => {
+  return apiClient.put(`books/${id}`, bookData)
+}
