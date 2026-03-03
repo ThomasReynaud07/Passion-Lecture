@@ -46,7 +46,7 @@ const handleDelete = async () => {
         <div class="header-actions">
           <span class="category-tag">{{ book.categorie }}</span>
           <div class="admin-buttons">
-            <router-link to="/Modification">
+            <router-link :to="`/Modification/${book.id}`">
               <button class="btn-edit"><Edit3 :size="16" /> Modifier</button>
             </router-link>
             <button class="btn-delete" @click="handleDelete">
