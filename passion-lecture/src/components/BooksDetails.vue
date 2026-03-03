@@ -1,11 +1,31 @@
 <script setup>
 import { ArrowLeft, Star, Edit3, Trash2, BookOpen, Calendar, Layers } from 'lucide-vue-next'
+import { deleteBook } from '@/services/bookServices' // importer le bookservice
+import { useRouter } from 'vue-router' //  rediriger après la suppression
 
 const props = defineProps({
   book: Object,
   back: Boolean,
 })
-console.log(props.back)
+const router = useRouter()
+
+const handleDelete = async () => {
+  // confirmation par l'utilisateur de bien vouloir supprimer
+  if (confirm(`Êtes-vous sûr de vouloir supprimer "${props.book.titre}" ?`)) {
+    try {
+      // appel de deletBook qui se trouve dans bookService
+      await deleteBook(props.book.id)
+
+      // message alert qui confirme la suppression
+      alert('Le livre a été supprimé avec succès.')
+      router.push('/Catalogue') // redirige vers le catalogue
+    } catch (error) {
+      // message d'erreur si il y'a un proble lors de la suppression
+      console.error('Erreur lors de la suppression:', error)
+      alert('Impossible de supprimer le livre.')
+    }
+  }
+}
 </script>
 
 <template>
@@ -26,8 +46,12 @@ console.log(props.back)
         <div class="header-actions">
           <span class="category-tag">{{ book.categorie }}</span>
           <div class="admin-buttons">
-            <button class="btn-edit"><Edit3 :size="16" /> Modifier</button>
-            <button class="btn-delete"><Trash2 :size="16" /> Supprimer</button>
+            <router-link to="/Modification">
+              <button class="btn-edit"><Edit3 :size="16" /> Modifier</button>
+            </router-link>
+            <button class="btn-delete" @click="handleDelete">
+              <Trash2 :size="16" /> Supprimer
+            </button>
           </div>
         </div>
 
