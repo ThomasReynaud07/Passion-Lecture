@@ -3,7 +3,7 @@ import axios from 'axios'
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000/',
   withCredentials: false,
-  Headers: {
+  headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
@@ -21,4 +21,8 @@ export const getBookById = (id) => {
 
 export const addBooks = (books) => {
   return apiClient.post('books/', books)
+}
+export const deleteBook = (id) => {
+  const books = apiClient.delete('books/' + id)
+  return books
 }
