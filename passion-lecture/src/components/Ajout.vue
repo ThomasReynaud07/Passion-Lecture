@@ -1,100 +1,102 @@
+<script setup>
+import { ref } from 'vue'
+import { addBooks } from '@/services/bookServices'
+
+const newBook = ref({
+  titre: '',
+  categorie: '',
+  auteur: {
+    prenom: '',
+    nom: '',
+  },
+  editeur: '',
+  annee: '',
+  extrait: '',
+  image: '',
+  pages: '',
+  resume: '',
+})
+
+const categorieList = ref([
+  'Roman',
+  'Manga',
+  'BD',
+  'Essai',
+  'Poésie',
+  'Science-fiction',
+  'Polar',
+  'Psychologie',
+  'Espace',
+  'Cuisine',
+  'Thriller',
+])
+
+const submitForm = async () => {
+  try {
+    await addBooks(newBook.value)
+
+    newBook.value = {
+      titre: '',
+      categorie: '',
+      auteur: { prenom: '', nom: '' },
+      editeur: '',
+      annee: '',
+      extrait: '',
+      image: '',
+      pages: '',
+      resume: '',
+    }
+  } catch (error) {
+    console.error('Erreur: ', error)
+  }
+}
+</script>
+
 <template>
   <div class="form-wrapper">
     <div class="form-container">
-      <form>
+      <form @submit.prevent="submitForm">
         <div class="form-row">
           <div class="form-group">
             <label>Titre <span class="required">*</span></label>
-            <input type="text" placeholder="Titre de l'ouvrage" v-model="newBook.title" />
+            <input type="text" placeholder="Titre de l'ouvrage" v-model="newBook.titre" required />
           </div>
           <div class="form-group">
             <label>Catégorie <span class="required">*</span></label>
-            <select v-model="newBook.category">
+            <select v-model="newBook.categorie" required>
               <option value="" disabled selected>Choisir une catégorie</option>
-              <option value="roman">Roman</option>
-              <option value="manga">Manga</option>
+              <option v-for="option in categorieList" :key="option" :value="option">
+                {{ option }}
+              </option>
             </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Auteur <span class="required">*</span></label>
-          <select v-model="newBook.category">
-            <option value="" disabled selected>Choisir un auteur existant ou Autre</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom de l'auteur <span class="required">*</span></label>
+            <input type="text" placeholder="Prénom" v-model="newBook.auteur.prenom" required />
+          </div>
+          <div class="form-group">
+            <label>Nom de l'auteur <span class="required">*</span></label>
+            <input type="text" placeholder="Nom" v-model="newBook.auteur.nom" required />
+          </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label>Éditeur</label>
-            <input type="text" placeholder="Nom de l'éditeur" v-model="newBook.editor" />
+            <input type="text" placeholder="Nom de l'éditeur" v-model="newBook.editeur" />
           </div>
           <div class="form-group">
             <label>Année d'édition</label>
-            <input type="number" placeholder="2024" v-model="newBook.releaseYear" />
+            <input type="number" placeholder="2024" v-model="newBook.annee" />
           </div>
         </div>
 
         <div class="form-group">
-          <label>Image de couverture</label>
-
-          <input
-            type="file"
-            id="upload-img"
-            accept="image/*"
-            style="display: none"
-            @change="imageUpload"
-          />
-
-          <label for="upload-img" class="upload-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="17 8 12 3 7 8" />
-              <line x1="12" x2="12" y1="3" y2="15" />
-            </svg>
-            {{ nomImage || 'Uploader une image' }}
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>Extrait PDF</label>
-
-          <input
-            type="file"
-            id="upload-pdf"
-            accept="application/pdf"
-            style="display: none"
-            @change="pdfUpload"
-          />
-
-          <label for="upload-pdf" class="upload-btn full-width">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="17 8 12 3 7 8" />
-              <line x1="12" x2="12" y1="3" y2="15" />
-            </svg>
-            {{ nomPdf || 'Uploader un extrait PDF' }}
-          </label>
+          <label>Nombre de pages</label>
+          <input type="number" placeholder="Ex: 350" v-model="newBook.pages" />
         </div>
 
         <div class="form-group">
@@ -106,32 +108,32 @@
           ></textarea>
         </div>
 
+        <div class="form-group">
+          <label>Lien de l'extrait PDF</label>
+          <input
+            type="url"
+            placeholder="https://exemple.com/mon-extrait.pdf"
+            v-model="newBook.extrait"
+            pattern=".*\.pdf"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Lien de l'image de couverture</label>
+          <input
+            type="url"
+            placeholder="https://exemple.com/mon-image.png"
+            v-model="newBook.image"
+          />
+        </div>
+
         <button type="submit" class="submit-btn">Enregistrer l'ouvrage</button>
       </form>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
-const newBook = ref({
-  title: '',
-  category: '',
-  author: '',
-  editor: '',
-  releaseYear: '',
-  pages: '',
-  image: '',
-  pdf: '',
-  resume: '',
-})
-
-const imageUpload = (event) => {}
-</script>
-
 <style scoped>
-/* Conteneur global pour centrer si besoin */
 .form-wrapper {
   display: flex;
   justify-content: center;
@@ -140,9 +142,8 @@ const imageUpload = (event) => {}
   color: #fff;
 }
 
-/* Boîte du formulaire */
 .form-container {
-  background-color: #181425; /* Couleur de fond sombre (basée sur tes précédentes cards) */
+  background-color: #181425;
   padding: 30px;
   border-radius: 16px;
   width: 100%;
@@ -151,21 +152,18 @@ const imageUpload = (event) => {}
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Grille pour les champs côte à côte */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-/* Groupement Label + Input */
 .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-/* Labels */
 label {
   font-size: 13px;
   font-weight: 600;
@@ -174,14 +172,13 @@ label {
 }
 
 .required {
-  color: #e2e8f0; /* Couleur de l'astérisque */
+  color: #e2e8f0;
 }
 
-/* Champs de texte, select et textarea */
 input,
 select,
 textarea {
-  background-color: #1a1625; /* Fond des inputs un peu plus clair que le fond principal */
+  background-color: #1a1625;
   border: 1px solid #332a4d;
   color: white;
   padding: 12px 16px;
@@ -197,7 +194,6 @@ textarea::placeholder {
   color: #64748b;
 }
 
-/* Customisation du select */
 select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
@@ -206,14 +202,12 @@ select {
   padding-right: 40px;
 }
 
-/* Focus sur les champs */
 input:focus,
 select:focus,
 textarea:focus {
   border-color: #8b5cf6;
 }
 
-/* Boutons d'upload (pointillés) */
 .upload-btn {
   background-color: #1a1625;
   border: 1px dashed #4c3a7e;
@@ -234,7 +228,6 @@ textarea:focus {
   border-color: #8b5cf6;
 }
 
-/* Bouton d'enregistrement principal */
 .submit-btn {
   background-color: #8b5cf6;
   color: white;
@@ -259,7 +252,6 @@ textarea:focus {
   transform: scale(0.98);
 }
 
-/* Responsive pour mobile */
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;

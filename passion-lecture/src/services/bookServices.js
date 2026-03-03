@@ -18,3 +18,7 @@ export const getBookById = (id) => {
   const books = apiClient.get('books/' + id)
   return books
 }
+
+export const addBooks = (books) => {
+  return apiClient.post('books/', books)
+}
