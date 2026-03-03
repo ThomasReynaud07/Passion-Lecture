@@ -19,6 +19,9 @@ export const getBookById = (id) => {
   return books
 }
 
+export const addBooks = (books) => {
+  return apiClient.post('books/', books)
+}
 export const deleteBook = (id) => {
   const books = apiClient.delete('books/' + id)
   return books
