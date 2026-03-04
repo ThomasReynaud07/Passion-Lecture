@@ -15,7 +15,21 @@
       "annee": 2021,
       "noteMoyenne": 4.3,
       "userEmail": "clara.m@biblio.fr",
-      "imageCouverture": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=400&h=600&fit=crop"
+      "imageCouverture": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=400&h=600&fit=crop",
+      "appreciations": [
+        {
+          "id": 1,
+          "commentaire": "Test",
+          "note": 3,
+          "userEmail": "j.roche@galaxy.com"
+        },
+        {
+          "id": 2,
+          "commentaire": "ooo",
+          "note": 4,
+          "userEmail": "jeffrey.island@telaviv.is"
+        }
+      ]
     },
     {
       "id": 2,

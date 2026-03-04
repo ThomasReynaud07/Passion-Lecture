@@ -1,7 +1,8 @@
 <script setup>
 import { ArrowLeft, Star, Edit3, Trash2, BookOpen, Calendar, Layers } from 'lucide-vue-next'
-import { deleteBook } from '@/services/bookServices' // importer le bookservice
+import { deleteBook, addComment } from '@/services/bookServices' // importer le bookservice
 import { useRouter } from 'vue-router' //  rediriger après la suppression
+import { ref } from 'vue'
 
 const props = defineProps({
   book: Object,
@@ -24,6 +25,25 @@ const handleDelete = async () => {
       console.error('Erreur lors de la suppression:', error)
       alert('Impossible de supprimer le livre.')
     }
+  }
+}
+const newComment = ref({
+  commentaire: '',
+  note: 0,
+  userEmail: 'jef@gmail.com',
+})
+
+const handleaddComment = async () => {
+  try {
+    await addComment(props.book.id, newComment.value)
+
+    props.book.appreciations.push({ ...newComment.value })
+    newComment.value.commentaire = ''
+    newComment.value.note = 0
+
+    alert('Merci pour votre avis !')
+  } catch (error) {
+    console.error('Erreur: ', error)
   }
 }
 </script>
@@ -101,6 +121,40 @@ const handleDelete = async () => {
         <BookOpen :size="24" /> Appréciations & Commentaires
         <span>({{ book.appreciations?.length || 0 }})</span>
       </h2>
+
+      <div class="add-comment-container">
+        <div class="rating-selector">
+          <span class="label">Votre note</span>
+          <div class="stars-input">
+            <span class="score-num">{{ newComment.note }}</span>
+            <Star
+              v-for="i in 5"
+              :key="i"
+              :size="24"
+              class="star-clickable"
+              :fill="i <= newComment.note ? '#fbbf24' : 'transparent'"
+              :color="i <= newComment.note ? '#fbbf24' : '#475569'"
+              @click="newComment.note = i"
+            />
+          </div>
+        </div>
+
+        <div class="textarea-wrapper">
+          <textarea
+            v-model="newComment.commentaire"
+            placeholder="Votre commentaire (optionnel)..."
+            rows="3"
+          ></textarea>
+        </div>
+
+        <button class="submit-btn" @click="handleaddComment" :disabled="newComment.note === 0">
+          <Send :size="18" /> Publier
+        </button>
+      </div>
+
+      <hr class="section-divider" />
+
+      <hr class="separator" />
 
       <div v-if="book.appreciations && book.appreciations.length > 0" class="comments-list">
         <div v-for="comment in book.appreciations" :key="comment.id" class="comment-card">
@@ -350,5 +404,96 @@ const handleDelete = async () => {
 .comment-text {
   color: #94a3b8;
   line-height: 1.6;
+}
+/* Container de saisie */
+.add-comment-container {
+  background: rgba(30, 27, 46, 0.7); /* Violet très sombre */
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.rating-selector .label {
+  display: block;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.stars-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.score-num {
+  color: #fbbf24;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+
+.star-clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.star-clickable:hover {
+  transform: scale(1.1);
+}
+
+/* Le Textarea avec l'effet néon violet de ta photo */
+.textarea-wrapper textarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 16px;
+  color: #f8fafc;
+  font-family: inherit;
+  resize: none;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.textarea-wrapper textarea:focus {
+  border-color: #7c3aed; /* Bordure violette */
+  box-shadow: 0 0 0 1px #7c3aed; /* Effet de lueur */
+}
+
+/* Le bouton Publier */
+.submit-btn {
+  display: inline-flex;
+  align-items: center; /* Centre verticalement l'icône et le texte */
+  justify-content: center; /* Centre horizontalement le contenu */
+  gap: 10px;
+  margin-top: 20px;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Un peu plus de padding pour donner du souffle */
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px; /* Donne une largeur minimale pour stabiliser le texte */
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.submit-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 40px;
 }
 </style>
