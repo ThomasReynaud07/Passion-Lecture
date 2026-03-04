@@ -5,6 +5,8 @@ import DetailsView from '@/views/DetailsView.vue'
 import Loginview from '@/views/LoginView.vue'
 import SignupView from '@/views/SignupView.vue'
 import ContactView from '@/views/ContactView.vue'
+import AjoutView from '@/views/AjoutView.vue'
+import ModificationView from '@/views/ModificationView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +41,16 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: ContactView,
+    },
+    {
+      path: '/Ajout',
+      name: 'Ajout',
+      component: AjoutView,
+    },
+    {
+      path: '/Modification/:id',
+      name: 'Modification',
+      component: ModificationView,
     },
   ],
 })

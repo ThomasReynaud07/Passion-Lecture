@@ -22,6 +22,10 @@ import { Book, Home, Library, LogIn, User } from 'lucide-vue-next'
           <Library :size="18" />
           <span>Catalogue</span>
         </RouterLink>
+        <RouterLink to="/Ajout" class="nav-item">
+          <Library :size="18" />
+          <span>Ajouter un livre</span>
+        </RouterLink>
       </nav>
 
       <div class="nav-right">
