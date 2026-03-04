@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import BooksDetails from '../components/BooksDetails.vue'
+import { getBookById } from '@/services/bookServices'
 
 const props = defineProps({
   id: [Number, String],
@@ -12,10 +13,8 @@ const isLoading = ref(true)
 
 const fetchBookDetails = async () => {
   isLoading.value = true
-  const response = await fetch(
-    `https://my-json-server.typicode.com/ThomasReynaud07/Passion-lecture/books/${props.id}`,
-  )
-  book.value = await response.json()
+  const response = await getBookById(props.id)
+  book.value = response.data
 }
 
 onMounted(() => {
@@ -23,12 +22,12 @@ onMounted(() => {
 })
 
 // Utile si l'utilisateur navigue d'un livre à un autre sans changer de composant
-watch(
-  () => props.id,
-  () => {
-    fetchBookDetails()
-  },
-)
+// watch(
+//   () => props.id,
+//   () => {
+//     fetchBookDetails()
+//   },
+// )
 </script>
 
 <template>
