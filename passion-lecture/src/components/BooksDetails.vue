@@ -1,8 +1,8 @@
 <script setup>
-import { ArrowLeft, Star, Edit3, Trash2, BookOpen, Calendar, Layers } from 'lucide-vue-next'
+import { ArrowLeft, Star, Edit3, Trash2, BookOpen, Calendar, Layers, Send } from 'lucide-vue-next'
 import { deleteBook, addComment } from '@/services/bookServices' // importer le bookservice
 import { useRouter } from 'vue-router' //  rediriger après la suppression
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   book: Object,
@@ -30,22 +30,43 @@ const handleDelete = async () => {
 const newComment = ref({
   commentaire: '',
   note: 0,
-  userEmail: 'jef@gmail.com',
+  userEmail: 'user@gmail.com',
 })
 
 const handleaddComment = async () => {
-  try {
-    await addComment(props.book.id, newComment.value)
+  if (newComment.value.note === 0) return
 
-    props.book.appreciations.push({ ...newComment.value })
-    newComment.value.commentaire = ''
-    newComment.value.note = 0
-
-    alert('Merci pour votre avis !')
-  } catch (error) {
-    console.error('Erreur: ', error)
+  //ajout id
+  const commentToAdd = {
+    ...newComment.value,
   }
+
+  //prends tous les comment et ajoute le dernier a la fin
+  const updatedAppreciations = [...props.book.appreciations, commentToAdd]
+
+  await addComment(props.book.id, updatedAppreciations)
+
+  props.book.appreciations.push(commentToAdd)
+
+  //reset forms
+  newComment.value.commentaire = ''
+  newComment.value.note = 0
+
+  alert('Merci pour votre avis !')
 }
+
+const noteMoyenneCalculee = computed(function () {
+  var appreciations = props.book.appreciations
+  var total = 0
+
+  for (var i = 0; i < appreciations.length; i++) {
+    total = total + appreciations[i].note
+  }
+
+  var resultat = total / appreciations.length
+
+  return Math.round(resultat * 10) / 10
+})
 </script>
 
 <template>
@@ -80,7 +101,7 @@ const handleaddComment = async () => {
 
         <div class="rating-box">
           <div class="big-score">
-            <span class="score-value">{{ book.noteMoyenne }}</span>
+            <span class="score-value">{{ noteMoyenneCalculee }}</span>
             <span class="score-max">/ 5</span>
           </div>
           <div class="stars-col">
@@ -89,7 +110,7 @@ const handleaddComment = async () => {
                 v-for="i in 5"
                 :key="i"
                 :size="20"
-                :fill="i <= Math.floor(book.noteMoyenne) ? '#fbbf24' : 'transparent'"
+                :fill="i <= Math.floor(noteMoyenneCalculee) ? '#fbbf24' : 'transparent'"
                 color="#fbbf24"
               />
             </div>
