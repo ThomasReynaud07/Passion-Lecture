@@ -30,3 +30,9 @@ export const deleteBook = (id) => {
 export const updateBook = (id, bookData) => {
   return apiClient.put(`books/${id}`, bookData)
 }
+
+export const addComment = (id, updatedAppreciations) => {
+  return apiClient.patch(`books/${id}`, {
+    appreciations: updatedAppreciations,
+  })
+}
