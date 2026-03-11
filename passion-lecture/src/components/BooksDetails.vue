@@ -56,6 +56,9 @@ const handleaddComment = async () => {
 
 const noteMoyenneCalculee = computed(function () {
   var appreciations = props.book.appreciations
+  if (!appreciations || appreciations.length === 0) {
+    return 0
+  }
   var total = 0
 
   for (var i = 0; i < appreciations.length; i++) {
