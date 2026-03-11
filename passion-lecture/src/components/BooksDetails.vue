@@ -36,7 +36,6 @@ const newComment = ref({
 const handleaddComment = async () => {
   if (newComment.value.note === 0) return
 
-  //ajout id
   const commentToAdd = {
     ...newComment.value,
   }
