@@ -16,7 +16,13 @@
       "noteMoyenne": 4.3,
       "userEmail": "clara.m@biblio.fr",
       "imageCouverture": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=400&h=600&fit=crop",
-      "appreciations": []
+      "appreciations": [
+        {
+          "commentaire": "trop bien",
+          "note": 4,
+          "userEmail": "user@gmail.com"
+        }
+      ]
     },
     {
       "id": 2,
@@ -166,7 +172,13 @@
       "noteMoyenne": 4.9,
       "userEmail": "chef.paul@cuisine.fr",
       "imageCouverture": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400",
-      "appreciations": []
+      "appreciations": [
+        {
+          "commentaire": "Franchement pas ouf...",
+          "note": 2,
+          "userEmail": "user@gmail.com"
+        }
+      ]
     },
     {
       "id": 10,
@@ -185,6 +197,14 @@
       "userEmail": "lea.d@writer.com",
       "imageCouverture": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=400",
       "appreciations": []
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "UserTest",
+      "email": "test@test.com",
+      "password": "test"
     }
   ]
 }

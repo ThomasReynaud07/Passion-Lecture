@@ -1,20 +1,34 @@
 <script setup>
 ///Import des Icones
 import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { getBooks } from '@/services/bookServices'
 
 const recentBooks = ref([])
 
-const fetchRecentBooks = async () => {
-  const response = await fetch('http://localhost:3000/books')
+onMounted(async () => {
+  const booksData = await getBooks()
 
-  const data = await response.json()
-  recentBooks.value = data.reverse()
-}
-
-onMounted(() => {
-  fetchRecentBooks()
+  //prendre booksData et mettre dans array pour ensuite le reverse() pour avoir les 5 derniers
+  recentBooks.value = [...booksData.data].reverse()
 })
+
+const midRate = function (livre) {
+  //Si le livre n'as pas encore de notes
+  if (!livre.appreciations || livre.appreciations.length === 0) {
+    return 0
+  }
+
+  let somme = 0
+  const liste = livre.appreciations
+
+  for (let i = 0; i < liste.length; i++) {
+    somme += liste[i].note
+  }
+
+  const resultat = somme / liste.length
+  return Number(resultat.toFixed(1))
+}
 </script>
 
 <template>
@@ -83,7 +97,7 @@ onMounted(() => {
               <span class="genre-badge roman">{{ book.categorie }}</span>
               <div class="rating-badge">
                 <Star :size="12" fill="#fbbf24" color="#fbbf24" />
-                <span>{{ book.noteMoyenne }}</span>
+                <span>{{ midRate(book) }}</span>
               </div>
             </div>
             <div class="book-info">
