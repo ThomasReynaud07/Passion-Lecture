@@ -7,6 +7,7 @@ import SignupView from '@/views/SignupView.vue'
 import ContactView from '@/views/ContactView.vue'
 import AjoutView from '@/views/AjoutView.vue'
 import ModificationView from '@/views/ModificationView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/Modification/:id',
       name: 'Modification',
       component: ModificationView,
+    },
+    {
+      path: '/Dashboard',
+      name: 'Dashboard',
+      component: DashboardView,
     },
   ],
 })

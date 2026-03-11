@@ -40,7 +40,9 @@
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">Se connecter</button>
+          <RouterLink to="/dashboard">
+            <button type="submit" class="submit-btn">Se connecter</button>
+          </RouterLink>
         </form>
 
         <div class="form-footer">
