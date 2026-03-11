@@ -12,9 +12,11 @@ const newBook = ref({
   editeur: '',
   annee: '',
   extrait: '',
-  image: '',
+  imageCouverture: '',
   pages: '',
   resume: '',
+  userID: 1,
+  appreciations: [],
 })
 
 const categorieList = ref([
@@ -42,7 +44,7 @@ const submitForm = async () => {
       editeur: '',
       annee: '',
       extrait: '',
-      image: '',
+      imageCouverture: '',
       pages: '',
       resume: '',
     }
@@ -123,7 +125,7 @@ const submitForm = async () => {
           <input
             type="url"
             placeholder="https://exemple.com/mon-image.png"
-            v-model="newBook.image"
+            v-model="newBook.imageCouverture"
           />
         </div>
 
