@@ -1,19 +1,40 @@
 <script setup>
 ///Import des Icones
 import { ArrowRight, Star, User, Sparkles, BookOpen, Users } from 'lucide-vue-next'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { getBooks } from '@/services/bookServices'
+import { getUsers } from '@/services/userServices'
 
 const recentBooks = ref([])
 
-const fetchRecentBooks = async () => {
-  const response = await fetch('http://localhost:3000/books')
+onMounted(async () => {
+  const booksData = await getBooks()
 
-  const data = await response.json()
-  recentBooks.value = data.reverse()
+  //prendre booksData et mettre dans array pour ensuite le reverse() pour avoir les 5 derniers
+  recentBooks.value = [...booksData.data].reverse()
+})
+
+const midRate = function (livre) {
+  //Si le livre n'as pas encore de notes
+  if (!livre.appreciations || livre.appreciations.length === 0) {
+    return 0
+  }
+
+  let somme = 0
+  const liste = livre.appreciations
+
+  for (let i = 0; i < liste.length; i++) {
+    somme += liste[i].note
+  }
+
+  const resultat = somme / liste.length
+  return Number(resultat.toFixed(1))
 }
+const allUsers = ref([])
 
-onMounted(() => {
-  fetchRecentBooks()
+onMounted(async function () {
+  const usersData = await getUsers()
+  allUsers.value = usersData.data
 })
 </script>
 
@@ -83,15 +104,15 @@ onMounted(() => {
               <span class="genre-badge roman">{{ book.categorie }}</span>
               <div class="rating-badge">
                 <Star :size="12" fill="#fbbf24" color="#fbbf24" />
-                <span>{{ book.noteMoyenne }}</span>
+                <span>{{ midRate(book) }}</span>
               </div>
             </div>
-            <div class="book-info">
+            <div class="book-info" v-for="user in allUsers" :key="user.id">
               <h3>{{ book.titre }}</h3>
               <p class="author">{{ book.auteur.nom }} {{ book.auteur.prenom }}</p>
               <div class="user-info">
                 <User :size="14" />
-                <span>{{ book.userEmail }}</span>
+                <span>{{ user.email }}</span>
               </div>
             </div>
           </div>
@@ -266,110 +287,114 @@ onMounted(() => {
   transform: translateX(5px);
 }
 
+/* --- LA GRILLE --- */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 30px;
+  gap: 20px; /* Réduit de 30px pour plus de compacité */
+  align-items: stretch;
 }
 
+/* --- LA CARTE --- */
 .book-card {
   background: #120d26;
-  border-radius: 24px;
-  overflow: hidden;
+  border-radius: 18px; /* Un peu plus subtil que 24px */
   border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .book-card:hover {
-  transform: translateY(-12px) scale(1.02);
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.3);
+  transform: translateY(-8px); /* Moins violent que -12px */
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 15px 30px -10px rgba(124, 58, 237, 0.2);
 }
 
+/* --- LA COUVERTURE (RÉDUITE) --- */
 .book-cover {
   position: relative;
-  aspect-ratio: 3 / 4.5;
+  /* Passage au format 3/4 : plus court, plus moderne */
+  aspect-ratio: 3 / 4;
   background: #1e1b2e;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .book-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
 
-.book-card:hover .book-cover img {
-  transform: scale(1.1);
-}
-
-.genre-badge {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: rgba(124, 58, 237, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 2;
-}
-
-.rating-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  padding: 6px 10px;
-  background: rgba(15, 12, 33, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #fbbf24;
-  z-index: 2;
-}
-
+/* --- LES INFOS (OPTIMISÉES) --- */
 .book-info {
-  padding: 24px;
+  padding: 16px; /* Réduit de 24px pour gagner de la place */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .book-info h3 {
-  font-size: 1.3rem;
+  font-size: 1.1rem; /* Un peu plus petit pour le confort visuel */
   font-weight: 700;
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0;
   color: #fff;
-  white-space: nowrap;
+
+  /* Sécurité anti-décalage (2 lignes max) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  min-height: 2.4em;
 }
 
 .author {
   color: #8b5cf6;
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 16px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  /* Pousse le bloc suivant vers le bas */
+  margin-bottom: auto;
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: #64748b;
-  font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  margin-top: 10px;
+}
+
+/* --- BADGES (PLUS FINS) --- */
+.genre-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  background: rgba(124, 58, 237, 0.9);
+  backdrop-filter: blur(8px);
+}
+
+.rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  background: rgba(15, 12, 33, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #fbbf24;
 }
 
 @media (max-width: 1024px) {
