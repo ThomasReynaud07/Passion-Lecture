@@ -1,33 +1,52 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Autor from './autor.js'
+import Category from './category.js'
+import User from './user.js'
 
 export default class Book extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare titre: string
+  declare title: string
 
   @column()
   declare pages: number
 
   @column()
-  declare categorie: string
-
-  @column()
-  declare extrait: string
+  declare extract: string
 
   @column()
   declare resume: string
 
   @column()
-  declare editeur: string
+  declare editor: string
 
   @column()
-  declare annee: number
+  declare year: number
 
   @column()
-  declare imageCouverture: string
+  declare frontImagePath: string
+
+  @column()
+  declare userId: number
+
+  @belongsTo(() => User)
+  declare users: BelongsTo<typeof User>
+
+  @column()
+  declare categoryId: number
+
+  @belongsTo(() => Category)
+  declare categories: BelongsTo<typeof Category>
+
+  @column()
+  declare autorId: number
+
+  @belongsTo(() => Autor)
+  declare autor: BelongsTo<typeof Autor>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
