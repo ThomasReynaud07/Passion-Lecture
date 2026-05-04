@@ -8,6 +8,7 @@ export default class Autor extends BaseModel {
   declare id: number
 
   @column()
+<<<<<<< HEAD
   declare firstName: string
 
   @column()
@@ -15,6 +16,12 @@ export default class Autor extends BaseModel {
 
   @hasMany(() => Book)
   declare books: HasMany<typeof Book>
+=======
+  declare nom: string
+
+  @column()
+  declare prenom: string
+>>>>>>> 5bdf6d035b2b99bc98c5278b60237f548dab189c
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
