@@ -8,10 +8,10 @@ export default class Autor extends BaseModel {
   declare id: number
 
   @column()
-  declare firstName: string
+  declare firstname: string
 
   @column()
-  declare lastName: string
+  declare lastname: string
 
   @hasMany(() => Book)
   declare books: HasMany<typeof Book>

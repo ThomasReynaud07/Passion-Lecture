@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.string('resume')
       table.string('editor')
       table.integer('year').unsigned
-      table.string('frontImagePath')
+      table.string('front_image_path')
       table
         .integer('user_id')
         .notNullable()
