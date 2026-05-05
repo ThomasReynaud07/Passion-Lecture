@@ -7,8 +7,9 @@ export default class BooksController {
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    const book = await Book.query()
-    return response.ok(book)
+    const books = await Book.query().preload('author').preload('user').preload('category')
+
+    return response.ok(books)
   }
 
   async create({}: HttpContext) {
@@ -16,17 +17,10 @@ export default class BooksController {
   }
 
   async store({ request, response }: HttpContext) {
-    const { title, pages, extract, resume, editor, year, frontImagePath } =
-      await request.validateUsing(booksValidator)
-    const book = await Book.create({
-      title,
-      pages,
-      extract,
-      resume,
-      editor,
-      year,
-      frontImagePath,
-    })
+    const payload = await request.validateUsing(booksValidator)
+
+    const book = await Book.create(payload)
+
     return response.created(book)
   }
 
@@ -34,7 +28,14 @@ export default class BooksController {
    * Show individual record
    */
   async show({ params, response }: HttpContext) {
-    const book = await Book.findOrFail(params.id)
+    const book = await Book.query()
+      .where('id', params.id)
+      .preload('author')
+      .preload('user')
+      .preload('category')
+      .preload('comments')
+      .firstOrFail()
+
     return response.ok(book)
   }
 
@@ -59,6 +60,9 @@ export default class BooksController {
       'editor',
       'year',
       'frontImagePath',
+      'authorId',
+      'userId',
+      'categoryId',
     ])
 
     book.merge(payload)
@@ -67,8 +71,10 @@ export default class BooksController {
     return response.ok(book)
   }
 
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
-    return book.delete()
+    await book.delete()
+
+    return response.noContent()
   }
 }

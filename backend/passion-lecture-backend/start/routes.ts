@@ -7,6 +7,7 @@
 |
 */
 
+import BooksController from '#controllers/books_controller'
 import router from '@adonisjs/core/services/router'
 import AuthorsController from '#controllers/authors_controller'
 router.get('/', async () => {
@@ -14,3 +15,7 @@ router.get('/', async () => {
     hello: 'world',
   }
 })
+
+router.resource('authors', AuthorsController).apiOnly()
+
+router.resource('books', BooksController).apiOnly()
