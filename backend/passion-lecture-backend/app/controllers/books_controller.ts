@@ -14,16 +14,16 @@ export default class BooksController {
   async create({}: HttpContext) {}
 
   async store({ request, response }: HttpContext) {
-    const { titre, pages, extrait, resume, editeur, annee, imageCouverture } =
+    const { title, pages, extract, resume, editor, year, frontImagePath } =
       await request.validateUsing(booksValidator)
     const book = await Book.create({
-      titre,
+      title,
       pages,
-      extrait,
+      extract,
       resume,
-      editeur,
-      annee,
-      imageCouverture,
+      editor,
+      year,
+      frontImagePath,
     })
     return response.created(book)
   }
