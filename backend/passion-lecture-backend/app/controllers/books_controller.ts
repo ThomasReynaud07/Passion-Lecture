@@ -11,7 +11,9 @@ export default class BooksController {
     return response.ok(book)
   }
 
-  async create({}: HttpContext) {}
+  async create({}: HttpContext) {
+    /// A FAIRE QUAND IL Y AURA LA LIAISON AVEC LE FRONTEND
+  }
 
   async store({ request, response }: HttpContext) {
     const { title, pages, extract, resume, editor, year, frontImagePath } =
@@ -39,12 +41,34 @@ export default class BooksController {
   /**
    * Edit individual record
    */
-  async edit({ params }: HttpContext) {}
+  async edit({}: HttpContext) {
+    /// A FAIRE QUAND IL Y AURA LA LIAISON AVEC LE FRONTEND
+  }
 
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, response }: HttpContext) {
+    const book = await Book.findOrFail(params.id)
 
-  async destroy({ params }: HttpContext) {}
+    const payload = request.only([
+      'title',
+      'pages',
+      'extract',
+      'resume',
+      'editor',
+      'year',
+      'frontImagePath',
+    ])
+
+    book.merge(payload)
+    await book.save()
+
+    return response.ok(book)
+  }
+
+  async destroy({ params }: HttpContext) {
+    const book = await Book.findOrFail(params.id)
+    return book.delete()
+  }
 }
