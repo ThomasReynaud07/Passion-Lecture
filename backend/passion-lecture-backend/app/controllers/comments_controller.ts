@@ -6,21 +6,16 @@ export default class CommentsController {
   /**
    * Display a list of resource
    */
-  async index({}: HttpContext) {
-    const comments = Comment.query().preload('user').preload('books').exec
-    return comments
+  async index({ response }: HttpContext) {
+    const comments = await Comment.query().preload('user').preload('books').exec()
+    return response.ok(comments)
   }
-
-  /**
-   * Display form to create a new record
-   */
-  async create({}: HttpContext) {}
 
   /**
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const { content, rate, bookId, userId } = await request.validateUsing(commentValidator)
+    const { content, rate, userId, bookId } = await request.validateUsing(commentValidator)
     const comment = await Comment.create({ content, rate, bookId, userId })
     return response.created(comment)
   }
@@ -28,20 +23,28 @@ export default class CommentsController {
   /**
    * Show individual record
    */
-  async show({ params }: HttpContext) {}
-
-  /**
-   * Edit individual record
-   */
-  async edit({ params }: HttpContext) {}
+  async show({ params, response }: HttpContext) {
+    const comment = await Comment.findOrFail(params.id)
+    return response.ok(comment)
+  }
 
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, response }: HttpContext) {
+    const comment = await Comment.findOrFail(params.id)
+    const { content, rate, userId, bookId } = await request.validateUsing(commentValidator)
+    comment.merge({ content, rate, userId, bookId })
+    await comment.save()
+    return response.ok(comment)
+  }
 
   /**
    * Delete record
    */
-  async destroy({ params }: HttpContext) {}
+  async destroy({ params, response }: HttpContext) {
+    const comment = await Comment.findOrFail(params.id)
+    await comment.delete()
+    return response.noContent()
+  }
 }
