@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
-import { registerValidator, loginValidator } from '#validators/auth'
+const { registerValidator, loginValidator } = await import('#validators/auth')
 
 export default class AuthController {
   async register({ request, response }: HttpContext) {
