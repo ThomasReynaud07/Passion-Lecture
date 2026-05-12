@@ -21,11 +21,11 @@ export default class extends BaseSchema {
         .inTable('users')
         .onDelete('CASCADE')
       table
-        .integer('autor_id')
+        .integer('author_id')
         .notNullable()
         .unsigned()
         .references('id')
-        .inTable('autors')
+        .inTable('authors')
         .onDelete('CASCADE')
       table
         .integer('category_id')

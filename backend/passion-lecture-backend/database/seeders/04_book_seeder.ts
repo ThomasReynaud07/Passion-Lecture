@@ -15,7 +15,7 @@ export default class extends BaseSeeder {
         frontImagePath:
           'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=400&h=600&fit=crop',
         categoryId: 1,
-        autorId: 1,
+        authorId: 1,
         userId: 1,
       },
     ])

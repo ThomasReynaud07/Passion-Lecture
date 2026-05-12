@@ -8,5 +8,7 @@ export const booksValidator = vine.compile(
     year: vine.number().min(900).max(2026),
     editor: vine.string().minLength(5).maxLength(255),
     frontImagePath: vine.string().minLength(10).maxLength(255),
+    authorId: vine.number().exists({ table: 'authors', column: 'id' }),
+    categoryId: vine.number().exists({ table: 'categories', column: 'id' }),
   })
 )

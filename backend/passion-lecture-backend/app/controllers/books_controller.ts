@@ -7,7 +7,7 @@ export default class BooksController {
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    const books = await Book.query().preload('author').preload('user').preload('category')
+    const books = await Book.query().preload('author').preload('users').preload('categories').exec()
 
     return response.ok(books)
   }
@@ -16,10 +16,17 @@ export default class BooksController {
     /// A FAIRE QUAND IL Y AURA LA LIAISON AVEC LE FRONTEND
   }
 
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, auth }: HttpContext) {
+    if (!auth.user) {
+      return response.unauthorized({ message: 'Authentication required' })
+    }
+
     const payload = await request.validateUsing(booksValidator)
 
-    const book = await Book.create(payload)
+    const book = await Book.create({
+      ...payload,
+      userId: auth.user.id,
+    })
 
     return response.created(book)
   }
@@ -31,9 +38,8 @@ export default class BooksController {
     const book = await Book.query()
       .where('id', params.id)
       .preload('author')
-      .preload('user')
-      .preload('category')
-      .preload('comments')
+      .preload('users')
+      .preload('categories')
       .firstOrFail()
 
     return response.ok(book)
