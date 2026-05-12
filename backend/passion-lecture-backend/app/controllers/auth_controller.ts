@@ -28,4 +28,13 @@ export default class AuthController {
       token: token.toJSON(),
     })
   }
+
+  async logout({ auth, response }: HttpContext) {
+    const user = auth.user!
+    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+
+    return response.ok({
+      message: 'Déconnecter',
+    })
+  }
 }
