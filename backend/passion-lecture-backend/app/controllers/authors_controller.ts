@@ -1,13 +1,13 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Autor from '#models/autor'
-import { autorValidator } from '#validators/autor'
+import Author from '#models/author'
+import { authorValidator } from '#validators/author'
 
 export default class AuthorsController {
   /**
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    const authors = await Autor.all()
+    const authors = await Author.all()
     return response.ok(authors)
   }
 
@@ -20,8 +20,8 @@ export default class AuthorsController {
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const payload = await request.validateUsing(autorValidator)
-    const author = await Autor.create(payload)
+    const payload = await request.validateUsing(authorValidator)
+    const author = await Author.create(payload)
     return response.created(author)
   }
 
@@ -29,7 +29,7 @@ export default class AuthorsController {
    * Show individual record
    */
   async show({ params, response }: HttpContext) {
-    const author = await Autor.findOrFail(params.id)
+    const author = await Author.findOrFail(params.id)
     return response.ok(author)
   }
 
@@ -42,8 +42,8 @@ export default class AuthorsController {
    * Handle form submission for the edit action
    */
   async update({ params, request, response }: HttpContext) {
-    const author = await Autor.findOrFail(params.id)
-    const payload = await request.validateUsing(autorValidator)
+    const author = await Author.findOrFail(params.id)
+    const payload = await request.validateUsing(authorValidator)
 
     author.merge(payload)
     await author.save()
@@ -55,7 +55,7 @@ export default class AuthorsController {
    * Delete record
    */
   async destroy({ params, response }: HttpContext) {
-    const author = await Autor.findOrFail(params.id)
+    const author = await Author.findOrFail(params.id)
     await author.delete()
 
     return response.noContent()

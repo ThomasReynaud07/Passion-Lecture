@@ -3,7 +3,7 @@ import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Book from './book.js'
 
-export default class Autor extends BaseModel {
+export default class Author extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 

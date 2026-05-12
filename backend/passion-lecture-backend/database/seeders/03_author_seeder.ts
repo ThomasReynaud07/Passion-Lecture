@@ -1,9 +1,9 @@
-import Autor from '#models/autor'
+import Author from '#models/author'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class extends BaseSeeder {
   async run() {
-    await Autor.createMany([
+    await Author.createMany([
       { firstname: 'Clara', lastname: 'Montel' },
       { firstname: 'Julien', lastname: 'Roche' },
       { firstname: 'Kenji', lastname: 'Takeda' },

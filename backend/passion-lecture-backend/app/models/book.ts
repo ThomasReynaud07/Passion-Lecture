@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Autor from './autor.js'
+import Author from './author.js'
 import Category from './category.js'
 import User from './user.js'
 
@@ -43,10 +43,10 @@ export default class Book extends BaseModel {
   declare categories: BelongsTo<typeof Category>
 
   @column()
-  declare autorId: number
+  declare authorId: number
 
-  @belongsTo(() => Autor)
-  declare autor: BelongsTo<typeof Autor>
+  @belongsTo(() => Author)
+  declare author: BelongsTo<typeof Author>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
