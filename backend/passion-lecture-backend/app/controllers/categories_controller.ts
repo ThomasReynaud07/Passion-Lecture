@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
 import Category from '#models/category'
 import { categoryValidator } from '#validators/category'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CategoriesController {
   /**

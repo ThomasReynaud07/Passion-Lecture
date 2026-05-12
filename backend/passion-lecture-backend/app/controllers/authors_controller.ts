@@ -7,7 +7,10 @@ export default class AuthorsController {
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    const authors = await Author.all()
+    const authors = await Author.query()
+      .orderBy('lastname', 'asc')
+      .orderBy('firstname', 'asc')
+      .exec()
     return response.ok(authors)
   }
 
@@ -20,8 +23,8 @@ export default class AuthorsController {
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const payload = await request.validateUsing(authorValidator)
-    const author = await Author.create(payload)
+    const authorData = await request.validateUsing(authorValidator)
+    const author = await Author.create(authorData)
     return response.created(author)
   }
 
@@ -43,9 +46,9 @@ export default class AuthorsController {
    */
   async update({ params, request, response }: HttpContext) {
     const author = await Author.findOrFail(params.id)
-    const payload = await request.validateUsing(authorValidator)
+    const authorData = await request.validateUsing(authorValidator)
 
-    author.merge(payload)
+    author.merge(authorData)
     await author.save()
 
     return response.ok(author)
