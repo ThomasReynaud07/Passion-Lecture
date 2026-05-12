@@ -7,7 +7,10 @@ export default class AuthorsController {
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    const authors = await Author.all()
+    const authors = await Author.query()
+      .orderBy('lastname', 'asc')
+      .orderBy('firstname', 'asc')
+      .exec()
     return response.ok(authors)
   }
 
