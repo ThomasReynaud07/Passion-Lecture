@@ -58,7 +58,7 @@ export default class BooksController {
   async update({ params, request, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
 
-    const payload = request.only([
+    const bookData = request.only([
       'title',
       'pages',
       'extract',
@@ -71,7 +71,7 @@ export default class BooksController {
       'categoryId',
     ])
 
-    book.merge(payload)
+    book.merge(bookData)
     await book.save()
 
     return response.ok(book)
