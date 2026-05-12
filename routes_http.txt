@@ -1,0 +1,46 @@
+Récupérer tous les auteurs | GET | /authors | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer 1 auteur | GET | /authors/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Ajouter un auteur | POST | /authors | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Modifier un auteur | PUT | /authors/id | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Supprimer un auteur | DELETE | /authors/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer tous les livres | GET | /books | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer 1 livre | GET | /books/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Ajouter un livre | POST | /books | besoin JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Modifier un livre | PUT | /books/id | besoin JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Supprimer un livre | DELETE | /books/id | pas JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Connexion (Login) | POST | /login | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Inscription (Register) | POST | /register | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Déconnexion (Logout) | POST | /logout | pas JSON | (Need Header Authorization) 
+---------------------------------------------------------------------------------------------------
+Récupérer tous les commentaires | GET | /comments | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer 1 commentaire | GET | /comments/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Ajouter un commentaire | POST | /comments | besoin JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Modifier un commentaire | PUT | /comments/id | besoin JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Supprimer un commentaire | DELETE | /comments/id | pas JSON | (Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer toutes les catégories | GET | /categories | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Récupérer 1 catégorie | GET | /categories/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Ajouter une catégorie | POST | /categories | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Modifier une catégorie | PUT | /categories/id | besoin JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
+Supprimer une catégorie | DELETE | /categories/id | pas JSON | (Don't Need Header Authorization)
+---------------------------------------------------------------------------------------------------
